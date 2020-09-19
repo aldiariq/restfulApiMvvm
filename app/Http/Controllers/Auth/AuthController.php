@@ -26,15 +26,18 @@ class AuthController extends Controller
 
             if($user->save()){
                 return response()->json([
+                    'isSuccessfull' => true,
                     'message' => "Registrasi Berhasil"
                 ], 200);
             }else {
                 return response()->json([
+                    'isSuccessfull' => false,
                     'message' => "Registrasi Gagal"
                 ], 401);
             }
         }else {
             return response()->json([
+                'isSuccessfull' => false,
                 'message' => "Registrasi Gagal"
             ], 401);
         }
@@ -65,6 +68,8 @@ class AuthController extends Controller
                 $token->save();
 
                 return response()->json([
+                    'isSuccessfull' => true,
+                    'message' => "Login Berhasil",
                     'access_token' => $datauserlogin->createToken('Token Akses')->accessToken,
                     'token_type' => 'Bearer',
                     'expires_at' => Carbon::parse($tokenRes->token->expires_at)->toDateString(),
@@ -72,11 +77,13 @@ class AuthController extends Controller
                 ]);
             }else {
                 return response()->json([
+                    'isSuccessfull' => false,
                     'message' => "Login Gagal"
                 ], 401);
             }
         }else {
             return response()->json([
+                'isSuccessfull' => false,
                 'message' => "Login Gagal"
             ], 401);
         }
@@ -85,10 +92,12 @@ class AuthController extends Controller
     public function logout(Request $request){
         if($request->user()->token()->revoke()){
             return response()->json([
+                'isSuccessfull' => true,
                 'message' => 'Logout Berhasil'
             ]);
         }else {
             return response()->json([
+                'isSuccessfull' => false,
                 'message' => 'Logout Gagal'
             ]);
         }
