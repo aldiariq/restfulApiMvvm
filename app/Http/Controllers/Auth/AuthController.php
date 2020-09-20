@@ -103,7 +103,7 @@ class AuthController extends Controller
         }
     }
 
-    public function user(Request $request){
+    public function getuserlogin(Request $request){
         return response()->json($request->user());
     }
 }
