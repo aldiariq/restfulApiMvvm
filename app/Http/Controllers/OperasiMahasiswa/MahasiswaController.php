@@ -12,7 +12,8 @@ class MahasiswaController extends Controller
         $validator = Validator::make($request->all(),[
             'nim' => 'required|string|unique:mahasiswas',
             'nama' => 'required|string',
-            'fotomhs' => 'required|image|mimes:jpeg,jpg,png'
+            'fotomhs' => 'required|image|mimes:jpeg,jpg,png',
+            'namafotomhs' => 'required|string'
         ]);
 
         if(!$validator->fails()){
@@ -23,7 +24,7 @@ class MahasiswaController extends Controller
             $mahasiswa = new Mahasiswa([
                 'nim' => $request->nim,
                 'nama' => $request->nama,
-                'foto' => $namafilefotomhs
+                'foto' => $request->namafotomhs
             ]);
 
             if($mahasiswa->save()){
@@ -62,5 +63,58 @@ class MahasiswaController extends Controller
             'isSuccessfull' => true,
             'mahasiswa' => $datamahasiswa
         ]);
+    }
+
+    public function update($id, Request $request){
+        $validator = Validator::make($request->all(), [
+            'nim' => 'required|string|unique:mahasiswas',
+            'nama' => 'required|string',
+            'fotomhs' => 'required|image|mimes:jpeg,jpg,png',
+            'namafotomhs' => 'required|string'
+        ]);
+
+        if (!$validator->fails()) {
+            $fotomhs = $request->fotomhs;
+            $namafilefotomhs = $fotomhs->getClientOriginalName();
+            $fotomhs->storeAs('public/fotomhs', $namafilefotomhs);
+
+            $datamahasiswa = Mahasiswa::find($id);
+            $datamahasiswa->nim = $request->nim;
+            $datamahasiswa->nama = $request->nama;
+            $datamahasiswa->foto = $request->namafotomhs;
+
+            if($datamahasiswa->save()){
+                return response()->json([
+                    'isSuccessfull' => true,
+                    'message' => 'Berhasil Mengupdate Data Mahasiswa'
+                ]);
+            }else {
+                return response()->json([
+                    'isSuccessfull' => false,
+                    'message' => 'Gagal Mengupdate Data Mahasiswa'
+                ]);
+            }
+        }else {
+            return response()->json([
+                'isSuccessfull' => false,
+                'message' => 'Gagal Mengupdate Data Mahasiswa'
+            ]);
+        }
+    }
+
+    public function delete($id){
+        $datamahasiswa = Mahasiswa::find($id);
+
+        if($datamahasiswa->delete()){
+            return response()->json([
+                'isSuccessfull' => true,
+                'message' => 'Berhasil Menghapus Data Mahasiswa'
+            ]);
+        }else {
+            return response()->json([
+                'isSuccessfull' => false,
+                'message' => 'Gagal Menghapus Data Mahasiswa'
+            ]);
+        }
     }
 }

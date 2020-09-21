@@ -41,4 +41,6 @@ Route::group([
     Route::post('createmahasiswa', [MahasiswaController::class, 'create']);
     Route::get('getallmahasiswa', [MahasiswaController::class, 'getall']);
     Route::get('getsinglemahasiswa/{id}', [MahasiswaController::class, 'getsingle']);
+    Route::post('updatemahasiswa/{id}', [MahasiswaController::class, 'update']);
+    Route::delete('deletemahasiswa/{id}', [MahasiswaController::class, 'delete']);
 });
