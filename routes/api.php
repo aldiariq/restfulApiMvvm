@@ -39,4 +39,6 @@ Route::group([
     'middleware' => 'auth:api',
 ], function(){
     Route::post('createmahasiswa', [MahasiswaController::class, 'create']);
+    Route::get('getallmahasiswa', [MahasiswaController::class, 'getall']);
+    Route::get('getsinglemahasiswa/{id}', [MahasiswaController::class, 'getsingle']);
 });

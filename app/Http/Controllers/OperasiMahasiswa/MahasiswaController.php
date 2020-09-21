@@ -44,7 +44,23 @@ class MahasiswaController extends Controller
                 'message' => "Gagal Menambahkan Data Mahasiswa"
             ], 401);
         }
+    }
 
-        
+    public function getall(){
+        $datamahasiswa = Mahasiswa::all();
+
+        return response()->json([
+            'isSuccessfull' => true,
+            'mahasiswa' => $datamahasiswa
+        ]);
+    }
+
+    public function getsingle($id){
+        $datamahasiswa = Mahasiswa::find($id);
+
+        return response()->json([
+            'isSuccessfull' => true,
+            'mahasiswa' => $datamahasiswa
+        ]);
     }
 }
